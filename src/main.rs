@@ -1,7 +1,12 @@
+use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
 use std::io;
 
 fn mrp() -> Result<(), Box<dyn std::error::Error>> {
+    #[derive(Deserialize)]
+    struct Ip {
+        origin: String,
+    }
 
     println!("Enter the Hex");
     let mut hex = String::new();
@@ -11,13 +16,22 @@ fn mrp() -> Result<(), Box<dyn std::error::Error>> {
 
     println!("Your color is {}", hex);
 
-    let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
+    //let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
+    let request_url = "https://httpbin.org/ip";
     println!("{}", request_url);
 
-    let rr = "https://httpbin.org/ip";
-    let resp = reqwest::blocking::get(&request_url)?
-        .json::<HashMap<String, String>>()?;
-    println!("{:#?}", resp);
+    //let resp = reqwest::blocking::get(request_url)?
+    //    .json::<HashMap<String, String>>()?;
+
+    let resp = reqwest::blocking::get(request_url)?
+        .json::<Ip>()?;
+
+    //let json: Ip = reqwest::blocking::get("http://httpbin.org/ip")
+    //    .json();
+    //let ip = reqwest::blocking::get("http://httpbin.org/ip")?
+    //    .json::<Ip>()?;
+
+    println!("{}", resp.origin);
     Ok(())
 }
 
