@@ -4,14 +4,15 @@ extern crate serde_json;
 extern crate serde_derive;
 
 use serde::{Deserialize};
-//use std::collections::HashMap;
+use std::collections::HashMap;
 use std::io;
+use serde_json::Map;
 
 fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
     //#[derive(Serialize, Deserialize, Debug)]
     #[derive(Deserialize, Debug)]
     struct Ip {
-        colors: Vec<String>,
+        colors: Vec<Color>,
     }
 
     #[derive(Deserialize, Debug)]
@@ -31,6 +32,25 @@ fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
         b: u32,
     }
 
+
+    let j = r#"{
+        "colors":[
+        {
+          "hex":"121212",
+          "name":"Dark Tone Ink",
+          "rgb":{
+            "r":18,
+            "g":18,
+            "b":18
+            },
+          "requestedHex":"121212",
+          "luminance":12.033992853579395,
+          "distance":0
+          }
+          ]
+    }"#;
+
+
     println!("Enter the Hex");
     let mut hex = String::new();
     io::stdin()
@@ -43,17 +63,18 @@ fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
     //let request_url = "https://httpbin.org/ip";
     println!("{}", request_url);
 
-    //let resp = reqwest::blocking::get(request_url)?
-    //    .json::<HashMap<String, String>>()?;
+    //let resp = reqwest::blocking::get(&request_url)?
+    //    .json::<HashMap<String, <>>>>()?;
+        //.json::<HashMap<String, String>>()?;
 
-    let resp = reqwest::blocking::get(&request_url)?
-        .json::<Ip>()?;
+    //let resp = reqwest::blocking::get(&request_url)?
+    //    .json::<Ip>()?;
 
     //let ip = reqwest::blocking::get("http://httpbin.org/ip")?
     //    .json::<Ip>()?;
-
-    let deserialized: Color = serde_json::from_str(&resp.colors[0]).unwrap();
-    println!("deserialized = {:#?}", deserialized.name);
+    let deserialized: Ip = serde_json::from_str(j).unwrap();
+    //let deserialized: Color = serde_json::from_str(&resp.colors[0]).unwrap();
+    println!("deserialized = {:#?}", deserialized.colors[0].hex);
     //println!("{}", resp.colors);
 
     //Ok(())
