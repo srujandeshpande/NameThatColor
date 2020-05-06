@@ -41,26 +41,18 @@ fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
 
     println!("Your color is {}", hex);
 
-    //let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
-    let request_url = "https://api.color.pizza/v1/ffffff";
-    //let request_url = "https://httpbin.org/ip";
-    println!("{}", request_url);
+    let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
 
     //let resp = reqwest::blocking::get(&request_url)?
     //    .json::<HashMap<String, <>>>>()?;
         //.json::<HashMap<String, String>>()?;
 
-    //let resp = reqwest::blocking::get(request_url)?
-        //.json::<Ip>()?;
         let resp = reqwest::blocking::ClientBuilder::new()
         .gzip(true)
         .build()?
-        .get(request_url)
+        .get(&request_url)
         .send()?
-        //.text()?;
         .json::<Ip>()?;
-
-        //println!("{}",resp);
 
     //let r1 = resp.into_bytes();
     //let r1 = String::from(j).into_bytes();
