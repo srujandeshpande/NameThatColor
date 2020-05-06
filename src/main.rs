@@ -2,16 +2,15 @@ extern crate serde;
 extern crate serde_json;
 //extern crate fs;
 //#[macro_use] extern crate serde_derive;
-extern crate serde_derive;
+//extern crate serde_derive;
 
 use serde::{Deserialize};
-use std::collections::HashMap;
+//use std::collections::HashMap;
 use std::io;
-use serde_json::Map;
-//use fs;
 
 fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
     //#[derive(Serialize, Deserialize, Debug)]
+
     #[derive(Deserialize, Debug)]
     struct Ip {
         colors: Vec<Color>,
@@ -34,25 +33,6 @@ fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
         b: u32,
     }
 
-
-    let j = r#"{
-        "colors":[
-        {
-          "hex":"121212",
-          "name":"Dark Tone Ink",
-          "rgb":{
-            "r":18,
-            "g":18,
-            "b":18
-            },
-          "requestedHex":"121212",
-          "luminance":12.033992853579395,
-          "distance":0
-          }
-          ]
-    }"#;
-
-
     println!("Enter the Hex");
     let mut hex = String::new();
     io::stdin()
@@ -61,7 +41,8 @@ fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
 
     println!("Your color is {}", hex);
 
-    let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
+    //let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
+    let request_url = "https://api.color.pizza/v1/ffffff";
     //let request_url = "https://httpbin.org/ip";
     println!("{}", request_url);
 
@@ -69,21 +50,34 @@ fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
     //    .json::<HashMap<String, <>>>>()?;
         //.json::<HashMap<String, String>>()?;
 
-    let resp = reqwest::blocking::get(&request_url)?
+    //let resp = reqwest::blocking::get(request_url)?
         //.json::<Ip>()?;
-        .text()?;
+        let resp = reqwest::blocking::ClientBuilder::new()
+        .gzip(true)
+        .build()?
+        .get(request_url)
+        .send()?
+        //.text()?;
+        .json::<Ip>()?;
+
+        //println!("{}",resp);
+
+    //let r1 = resp.into_bytes();
+    //let r1 = String::from(j).into_bytes();
+    //let r2 = String::from(k).into_bytes();
+    //assert_eq!(&r1[..], &r2[..]);
     //fs::write("res.json", &resp);
-    println!("{}",resp);
     //let ip = reqwest::blocking::get("http://httpbin.org/ip")?
     //    .json::<Ip>()?;
-    ////let deserialized: Ip = serde_json::from_str(j).unwrap();
-    //let deserialized: Ip = serde_json::from_str(j).unwrap();
+    ////let deserialized: Ip = serde_json::from_str(k).unwrap();
+    ///let deserialized: Ip = serde_json::from_str(&resp).unwrap();
     //let deserialized: Color = serde_json::from_str(&resp.colors[0]).unwrap();
-    ////println!("deserialized = {:#?}", resp.colors[0].name);
+    println!("deserialized = {:#?}", resp.colors[0].name);
+    ///println!("deserialized = {:#?}", deserialized.colors[0].name);
     //println!("{}", resp.colors);
 
     //Ok(())
-    return Ok(request_url);
+    return Ok(hex);
 
 }
 
