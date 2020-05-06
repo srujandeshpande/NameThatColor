@@ -1,4 +1,10 @@
+extern crate reqwest;
+
 use std::io;
+use serde::{Serialize, Deserialize};
+//extern crate serde_derive;
+//use serde_json::{json};
+
 
 fn main() {
     println!("Enter the Hex");
@@ -10,4 +16,14 @@ fn main() {
         .expect("Failed to read line");
 
     println!("Your color is {}", hex);
+
+    let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
+    println!("{}", request_url);
+    let mut res = reqwest::get(&request_url);
+
+    #[derive(Serialize,Deserialize)]
+    struct Ip {
+        origin: String,
+    }
+
 }
