@@ -1,5 +1,6 @@
 extern crate serde;
 extern crate serde_json;
+//extern crate fs;
 //#[macro_use] extern crate serde_derive;
 extern crate serde_derive;
 
@@ -7,6 +8,7 @@ use serde::{Deserialize};
 use std::collections::HashMap;
 use std::io;
 use serde_json::Map;
+//use fs;
 
 fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
     //#[derive(Serialize, Deserialize, Debug)]
@@ -67,14 +69,17 @@ fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
     //    .json::<HashMap<String, <>>>>()?;
         //.json::<HashMap<String, String>>()?;
 
-    //let resp = reqwest::blocking::get(&request_url)?
-    //    .json::<Ip>()?;
-
+    let resp = reqwest::blocking::get(&request_url)?
+        //.json::<Ip>()?;
+        .text()?;
+    //fs::write("res.json", &resp);
+    println!("{}",resp);
     //let ip = reqwest::blocking::get("http://httpbin.org/ip")?
     //    .json::<Ip>()?;
-    let deserialized: Ip = serde_json::from_str(j).unwrap();
+    ////let deserialized: Ip = serde_json::from_str(j).unwrap();
+    //let deserialized: Ip = serde_json::from_str(j).unwrap();
     //let deserialized: Color = serde_json::from_str(&resp.colors[0]).unwrap();
-    println!("deserialized = {:#?}", deserialized.colors[0].hex);
+    ////println!("deserialized = {:#?}", resp.colors[0].name);
     //println!("{}", resp.colors);
 
     //Ok(())
