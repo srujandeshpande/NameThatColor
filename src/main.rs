@@ -1,8 +1,8 @@
-use serde::{Serialize, Deserialize};
-use std::collections::HashMap;
+use serde::{Deserialize};
+//use std::collections::HashMap;
 use std::io;
 
-fn mrp() -> Result<(), Box<dyn std::error::Error>> {
+fn mrp() -> Result<(String), Box<dyn std::error::Error>> {
     #[derive(Deserialize)]
     struct Ip {
         origin: String,
@@ -32,11 +32,13 @@ fn mrp() -> Result<(), Box<dyn std::error::Error>> {
     //    .json::<Ip>()?;
 
     println!("{}", resp.origin);
-    Ok(())
+    //Ok(())
+    return Ok (resp.origin);
 }
 
 fn main() {
-    mrp();
+    let ans = mrp();
+    println!("{:?}", ans);
 }
 
 /*
