@@ -31,8 +31,6 @@ fn find_name(hex: &str) -> Result< String, Box<dyn std::error::Error>> {
 
     let hex = hex.replace("#", "");
     let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
-    //  .json::<HashMap<String, String>>()?;
-
     let resp = reqwest::blocking::ClientBuilder::new()
     .gzip(true)
     .build()?
@@ -52,6 +50,5 @@ fn main() {
         .expect("Failed to read line");
     let name = find_name(&hex)
         .unwrap();
-    //let ans = find_name(&hex);
     println!("{:}", name);
 }
