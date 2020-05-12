@@ -50,6 +50,8 @@ fn main() {
     io::stdin()
         .read_line(&mut hex)
         .expect("Failed to read line");
-    let ans = find_name(&hex);
-    println!("{:?}", ans);
+    let name = find_name(&hex)
+        .unwrap();
+    //let ans = find_name(&hex);
+    println!("{:}", name);
 }
