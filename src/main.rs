@@ -29,7 +29,6 @@ fn find_name(hex: &str) -> Result< String, Box<dyn std::error::Error>> {
         b: u32,
     }
 
-    println!("Please enter the hex of your color");
     let hex = hex.replace("#", "");
     let request_url = format!("https://api.color.pizza/v1/{hex}", hex=hex);
     //  .json::<HashMap<String, String>>()?;
@@ -46,6 +45,7 @@ fn find_name(hex: &str) -> Result< String, Box<dyn std::error::Error>> {
 }
 
 fn main() {
+    println!("Please enter the hex of your color");
     let mut hex = String::new();
     io::stdin()
         .read_line(&mut hex)
