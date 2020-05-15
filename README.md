@@ -1,2 +1,3 @@
 # color-info
-Provides info about a color
+Provides the closest name of a color hex that you provide!
+
